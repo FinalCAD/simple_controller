@@ -1,5 +1,7 @@
 module ContextController
   class Base
+    include Callbacks
+
     attr_reader :context, :action_name
 
     def call(action_name, context={})
