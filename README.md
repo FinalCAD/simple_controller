@@ -1,8 +1,6 @@
 # ContextController
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/context_controller`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Use the Ruby on Rails Controller pattern outside of the Rails request stack.
 
 ## Installation
 
@@ -22,20 +20,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class UserController < ContextController::Base
+    before_action do
+        @user = User.find(context.user_id)
+    end
 
-## Development
+    def touch
+        @user.touch
+        @user
+    end
+end
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+UserController.call(:touch, user_id: 1) # => returns User object
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/context_controller.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+It works like a Rails Controller, but has the following differences:
+- `context` is used instead of `params`, and `context` is an [`OpenStruct`](http://ruby-doc.org/stdlib-2.2.3/libdoc/ostruct/rdoc/OpenStruct.html)
+- `action_name` is a `Symbol`
+- It isn't part of the Rails request stack, so many methods are missing (obviously)
