@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe ContextController do
+describe SimpleController do
   it 'has a version number' do
-    expect(ContextController::VERSION).not_to be nil
+    expect(SimpleController::VERSION).not_to be nil
   end
 
   it 'does something useful' do

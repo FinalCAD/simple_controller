@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in context_controller.gemspec
+# Specify your gem's dependencies in simple_controller.gemspec
 gemspec
 
 gem "bundler", "> 1.3"

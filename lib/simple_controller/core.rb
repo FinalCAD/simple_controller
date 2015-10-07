@@ -1,4 +1,4 @@
-module ContextController
+module SimpleController
   module Core
     extend ActiveSupport::Concern
 

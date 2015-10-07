@@ -1,4 +1,4 @@
-# ContextController
+# SimpleController
 
 Use the Ruby on Rails Controller pattern outside of the Rails request stack.
 
@@ -7,7 +7,7 @@ Use the Ruby on Rails Controller pattern outside of the Rails request stack.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'context_controller'
+gem 'simple_controller'
 ```
 
 And then execute:
@@ -16,12 +16,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install context_controller
+    $ gem install simple_controller
 
 ## Usage
 
 ```ruby
-class UserController < ContextController::Base
+class UserController < SimpleController::Base
     before_action do
         @user = User.find(context.user_id)
     end

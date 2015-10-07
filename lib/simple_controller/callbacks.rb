@@ -1,5 +1,5 @@
 # based on: https://github.com/rails/rails/blob/d2876141d08341ec67cf6a11a073d1acfb920de7/actionpack/lib/abstract_controller/callbacks.rb
-module ContextController
+module SimpleController
   module Callbacks
     extend ActiveSupport::Concern
 
@@ -12,7 +12,7 @@ module ContextController
       define_callbacks :call_action
     end
 
-    # Override ContextController::Base's call to run the
+    # Override SimpleController::Base's call to run the
     # call callbacks around the normal behavior.
     def call_action(*args)
       run_callbacks(:call_action) do

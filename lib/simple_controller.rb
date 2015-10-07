@@ -1,15 +1,15 @@
 autoload = false
 # autoload = true #uncomment for testing purposes only, not covered by rspec
 
-require "context_controller/version"
+require "simple_controller/version"
 
 if autoload && defined?(Rails)
-  require 'context_controller/engine'
+  require 'simple_controller/engine'
 else
-  require 'context_controller/base'
+  require 'simple_controller/base'
 end
 
 
-module ContextController
+module SimpleController
   # Your code goes here...
 end
