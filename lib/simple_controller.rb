@@ -3,6 +3,9 @@ autoload = false
 
 require "simple_controller/version"
 
+require 'active_support/callbacks'
+require 'active_support/hash_with_indifferent_access'
+
 if autoload && defined?(Rails)
   require 'simple_controller/engine'
 else

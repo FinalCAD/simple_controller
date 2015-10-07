@@ -23,7 +23,7 @@ Or install it yourself as:
 ```ruby
 class UserController < SimpleController::Base
     before_action do
-        @user = User.find(context.user_id)
+        @user = User.find(params[:user_id])
     end
 
     def touch
@@ -33,9 +33,10 @@ class UserController < SimpleController::Base
 end
 
 UserController.call(:touch, user_id: 1) # => returns User object
+UserController.new.call(:touch, user_id: 1) # => same as above
 ```
 
-It works like a Rails Controller, but has the following differences:
-- `context` is used instead of `params`, and `context` is an [`OpenStruct`](http://ruby-doc.org/stdlib-2.2.3/libdoc/ostruct/rdoc/OpenStruct.html)
-- `action_name` is a `Symbol`
-- It isn't part of the Rails request stack, so many methods are missing (obviously)
+It works like a Rails Controller, but has only has the following features:
+- Callbacks
+- `params`
+- `action_name`
