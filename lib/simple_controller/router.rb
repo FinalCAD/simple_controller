@@ -32,6 +32,10 @@ module SimpleController
       @route_mapping[route_path] = route
     end
 
+    def parse_controller_name(&block)
+      @controller_name_block = block
+    end
+
     class << self
       attr_reader :controller_name_block
 
@@ -41,10 +45,6 @@ module SimpleController
 
       def call(*args)
         instance.call(*args)
-      end
-
-      def parse_controller_name(&block)
-        @controller_name_block = block
       end
     end
   end
