@@ -9,4 +9,14 @@ ThreesRouter.instance.draw do
     match :add
     match subtracting: "subtract"
   end
+
+  namespace :namespace do
+    match "threes/multiply"
+    match "threes/dividing" => "threes#divide"
+
+    controller :threes do
+      match :add
+      match subtracting: "subtract"
+    end
+  end
 end

@@ -5,11 +5,13 @@ describe SimpleController::Router do
 
   describe "#call" do
     let(:params) { { number: 6 } }
-    subject { instance.call action_name, params }
+    let(:namespace) { nil }
+    let(:route_path) { [namespace, "threes", action_name].compact.join("/") }
+    subject { instance.call route_path, params }
 
     shared_examples "route variations" do |controller_class|
       context "only route" do
-        let(:action_name) { "threes/multiply" }
+        let(:action_name) { "multiply" }
         it ("calls the correct controller function") do
           expect_any_instance_of(controller_class).to receive(:multiply).and_call_original
           expect(subject).to eql 18
@@ -17,7 +19,7 @@ describe SimpleController::Router do
       end
 
       context "route with to" do
-        let(:action_name) { "threes/dividing" }
+        let(:action_name) { "dividing" }
         it ("calls the correct controller function") do
           expect_any_instance_of(controller_class).to receive(:divide).and_call_original
           expect(subject).to eql 0.5
@@ -25,14 +27,14 @@ describe SimpleController::Router do
       end
 
       context "within controller scope" do
-        let(:action_name) { "threes/add" }
+        let(:action_name) { "add" }
         it ("calls the correct controller function") do
           expect_any_instance_of(controller_class).to receive(:add).and_call_original
           expect(subject).to eql 9
         end
 
         context "route with to" do
-          let(:action_name) { "threes/subtracting" }
+          let(:action_name) { "subtracting" }
           it ("calls the correct controller function") do
             expect_any_instance_of(controller_class).to receive(:subtract).and_call_original
             expect(subject).to eql -3
@@ -42,6 +44,12 @@ describe SimpleController::Router do
     end
 
     include_examples "route variations", ThreesController
+
+    context "with namespace appended" do
+      let(:namespace) { "namespace" }
+
+      include_examples "route variations", Namespace::ThreesController
+    end
 
     context "with #parse_controller_name" do
       let(:instance) do

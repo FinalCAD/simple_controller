@@ -15,6 +15,8 @@ module SimpleController
       @route_path = route_path
       @route = @route_mapping[route_path]
 
+      raise "Route for '#{route_path}' not found" unless route
+
       run_callbacks(:call) do
         @route.call params, controller_name_block
       end

@@ -58,6 +58,10 @@ Router.instance.draw do
     match subtracting: "subtract"
   end
   
+  namespace :some_namespace do
+    match :magic
+  end
+  
   # no other Rails-like syntax is available
 end
 
