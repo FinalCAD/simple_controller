@@ -14,4 +14,8 @@ class ThreesController < SimpleController::Base
   def subtract
     3 - params[:number]
   end
+
+  def power
+    3**params[:number]
+  end
 end

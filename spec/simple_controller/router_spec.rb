@@ -13,7 +13,7 @@ describe SimpleController::Router do
       context "only route" do
         let(:action_name) { "multiply" }
         it ("calls the correct controller function") do
-          expect_any_instance_of(controller_class).to receive(:multiply).and_call_original
+          expect_any_instance_of(controller_class).to receive(action_name).and_call_original
           expect(subject).to eql 18
         end
       end
@@ -29,7 +29,7 @@ describe SimpleController::Router do
       context "within controller scope" do
         let(:action_name) { "add" }
         it ("calls the correct controller function") do
-          expect_any_instance_of(controller_class).to receive(:add).and_call_original
+          expect_any_instance_of(controller_class).to receive(action_name).and_call_original
           expect(subject).to eql 9
         end
 
@@ -39,6 +39,15 @@ describe SimpleController::Router do
             expect_any_instance_of(controller_class).to receive(:subtract).and_call_original
             expect(subject).to eql -3
           end
+        end
+      end
+
+      context "defined by controller" do
+        let(:action_name) { "power" }
+
+        it ("calls the correct controller function") do
+          expect_any_instance_of(controller_class).to receive(action_name).and_call_original
+          expect(subject).to eql 729
         end
       end
     end

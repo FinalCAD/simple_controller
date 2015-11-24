@@ -17,11 +17,13 @@ module SimpleController
         mapper.instance_eval(&block)
       end
 
-      def controller(controller_name, &block)
+      def controller(controller_name, options={}, &block)
         raise "can't have multiple controller scopes" if self.controller_name
 
         mapper = self.class.new(router, namespaces, controller_name)
-        mapper.instance_eval(&block)
+        Array(options[:actions]).each { |action| mapper.match(action) }
+
+        mapper.instance_eval(&block) if block_given?
       end
 
       def match(arg)

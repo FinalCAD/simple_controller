@@ -57,6 +57,8 @@ Router.instance.draw do
     match :add
     match subtracting: "subtract"
   end
+  # custom syntax
+  controller :threes, actions: %i[power]
   
   namespace :some_namespace do
     match :magic
