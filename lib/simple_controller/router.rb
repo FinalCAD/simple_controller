@@ -2,7 +2,7 @@ require 'simple_controller/router/mapper'
 
 module SimpleController
   class Router
-    attr_reader :route_mapping, :route, :route_path
+    attr_reader :route_mapping, :route, :route_path, :controller_name_block
 
     include ActiveSupport::Callbacks
     define_callbacks :call
@@ -16,7 +16,7 @@ module SimpleController
       @route = @route_mapping[route_path]
 
       run_callbacks(:call) do
-        @route.call params, &self.class.controller_name_block
+        @route.call params, controller_name_block
       end
     ensure
       @route_path = nil
@@ -37,8 +37,6 @@ module SimpleController
     end
 
     class << self
-      attr_reader :controller_name_block
-
       def instance
         @instance ||= new
       end
