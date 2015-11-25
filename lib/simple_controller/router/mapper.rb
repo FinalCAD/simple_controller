@@ -5,16 +5,17 @@ module SimpleController
     class Mapper
       attr_reader :router, :namespaces, :controller_name
 
-      def initialize(router, namespaces=nil, controller_name=nil)
+      def initialize(router, namespaces=[], controller_name=nil)
         @router, @namespaces, @controller_name = router, namespaces, controller_name
       end
 
       def namespace(namespace, &block)
-        @namespaces ||= []
         @namespaces << namespace
 
         mapper = self.class.new(router, namespaces, controller_name)
         mapper.instance_eval(&block)
+      ensure
+        @namespaces.pop
       end
 
       def controller(controller_name, options={}, &block)
