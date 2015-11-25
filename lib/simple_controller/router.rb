@@ -25,6 +25,10 @@ module SimpleController
       @route = nil
     end
 
+    def route_paths
+      route_mapping.keys
+    end
+
     def draw(&block)
       mapper = Mapper.new(self)
       mapper.instance_eval(&block)

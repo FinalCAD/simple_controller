@@ -3,6 +3,25 @@ require 'spec_helper'
 describe SimpleController::Router do
   let(:instance) { ThreesRouter.instance }
 
+  describe "#route_paths" do
+    let(:instance) do
+      class SimpleRouter < SimpleController::Router; end
+      SimpleRouter.instance.draw do
+        match 'call/me'
+        controller :control do
+          match :basic_route
+        end
+      end
+      SimpleRouter.instance
+    end
+
+    subject { instance.route_paths }
+
+    it "returns the route paths" do
+      expect(subject).to match_array %w[call/me control/basic_route]
+    end
+  end
+
   describe "#call" do
     let(:params) { { number: 6 } }
     let(:namespace) { nil }
