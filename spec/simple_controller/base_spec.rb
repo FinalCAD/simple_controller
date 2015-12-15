@@ -1,17 +1,8 @@
 require 'spec_helper'
 
-class Controller < SimpleController::Base
-  before_action(only: :triple) { params[:number] = params[:number].to_i }
-
-  def triple
-    params[:number] * 3
-  end
-end
-
-
 describe SimpleController::Base do
   describe "instance" do
-    let(:instance) { Controller.new }
+    let(:instance) { BasicController.new }
 
     describe "#call" do
       let(:params) { { number: 3 } }
@@ -50,7 +41,7 @@ describe SimpleController::Base do
 
   describe "class" do
     describe "::call" do
-      subject { Controller.call(:triple, number: 3) }
+      subject { BasicController.call(:triple, number: 3) }
 
       it "works" do
         expect(subject).to eql 9

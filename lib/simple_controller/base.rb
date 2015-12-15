@@ -1,5 +1,5 @@
-require 'simple_controller/core'
-require 'simple_controller/callbacks'
+require 'simple_controller/base/core'
+require 'simple_controller/base/callbacks'
 
 module SimpleController
   class Base

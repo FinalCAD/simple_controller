@@ -1,0 +1,2 @@
+class ThreesSuffixController < ThreesController
+end
