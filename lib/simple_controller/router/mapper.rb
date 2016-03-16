@@ -1,5 +1,3 @@
-require 'simple_controller/router/route'
-
 module SimpleController
   class Router
     class Mapper
@@ -28,18 +26,16 @@ module SimpleController
       end
 
       def match(arg)
-        route_path, partition = parse_match_arg(arg)
+        route_path, controller_name, action_name = parse_match_arg(arg)
 
         route_parts = [route_path]
         route_parts.unshift(self.controller_path) if self.controller_path
         route_parts.unshift(*namespaces)
 
-        controller_path_parts = [self.controller_path || partition.first]
+        controller_path_parts = [self.controller_path || controller_name]
         controller_path_parts.unshift(*namespaces)
 
-        action_name = partition.last
-
-        router.add_route join_parts(route_parts), Route.new(join_parts(controller_path_parts), action_name)
+        router.add_route join_parts(route_parts), join_parts(controller_path_parts), action_name
       end
 
       protected
@@ -54,14 +50,18 @@ module SimpleController
 
       def parse_match_arg(arg)
         if arg.class == Hash
+          # match "threes/dividing" => "threes#divide"
+          # match subtracting: "subtract"
           raise "takes only one option" unless arg.size == 1
           route_path = arg.keys.first.to_s
-          partition = arg.values.first.to_s.rpartition("#")
+          controller_name, _, action_name = arg.values.first.to_s.rpartition("#")
         else
+          # match :threes
+          # match "threes/multiply"
           route_path = arg.to_s
-          partition = route_path.rpartition("/")
+          controller_name, _, action_name = route_path.rpartition("/")
         end
-        [route_path, partition]
+        [route_path, controller_name, action_name]
       end
     end
   end

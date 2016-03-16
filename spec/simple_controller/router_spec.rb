@@ -1,31 +1,15 @@
 require 'spec_helper'
 
+class SimpleRouter < SimpleController::Router; end
+
 describe SimpleController::Router do
-  let(:instance) { ThreesRouter.instance }
-
-  describe "#route_paths" do
-    let(:instance) do
-      class SimpleRouter < SimpleController::Router; end
-      SimpleRouter.instance.draw do
-        match 'call/me'
-        controller :control do
-          match :basic_route
-        end
-      end
-      SimpleRouter.instance
-    end
-
-    subject { instance.route_paths }
-
-    it "returns the route paths" do
-      expect(subject).to match_array %w[call/me control/basic_route]
-    end
-  end
-
   describe "#call" do
+    let(:instance) { ThreesRouter.instance }
+
     let(:params) { { number: 6 } }
     let(:namespace) { nil }
     let(:route_path) { [namespace, "threes", action_name].compact.join("/") }
+
     subject { instance.call route_path, params }
 
     shared_examples "route variations" do |controller_class|
@@ -80,12 +64,29 @@ describe SimpleController::Router do
     end
 
     context "with #parse_controller_path" do
-      let(:instance) do
-        instance = ThreesRouter.instance.dup
+      before do
         instance.parse_controller_path {|controller_path| "#{controller_path}_suffix_controller".classify.constantize }
-        instance
       end
+
       include_examples "route variations", ThreesSuffixController
+    end
+  end
+
+  describe "#route_paths" do
+    let(:instance) { SimpleRouter.new }
+    before do
+      instance.draw do
+        match 'call/me'
+        controller :control do
+          match :basic_route
+        end
+      end
+    end
+
+    subject { instance.route_paths }
+
+    it "returns the route paths" do
+      expect(subject).to match_array %w[call/me control/basic_route]
     end
   end
 end
