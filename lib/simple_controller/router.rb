@@ -4,9 +4,6 @@ module SimpleController
   class Router
     attr_reader :route_mapping, :route, :route_path, :controller_path_block
 
-    include ActiveSupport::Callbacks
-    define_callbacks :call
-
     def initialize
       @route_mapping = {}
     end
@@ -17,9 +14,7 @@ module SimpleController
 
       raise "#{self.class} route for '#{@route_path}' not found" unless route
 
-      run_callbacks(:call) do
-        @route.call params, controller_path_block
-      end
+      @route.call params, controller_path_block
     ensure
       @route_path = nil
       @route = nil
