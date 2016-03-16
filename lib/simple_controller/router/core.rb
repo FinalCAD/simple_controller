@@ -7,7 +7,7 @@ module SimpleController
       extend ActiveSupport::Concern
 
       included do
-        attr_reader :route_mapping, :route, :route_path, :params, :controller_path_block
+        attr_reader :route_mapping, :route_path, :params, :controller_path_block
       end
       def initialize
         @route_mapping = {}
@@ -15,14 +15,13 @@ module SimpleController
 
       def call(route_path, params={})
         @route_path = route_path.to_s
-        @route = @route_mapping[@route_path]
         @params = params
 
+        route = @route_mapping[@route_path]
         raise "#{self.class} route for '#{@route_path}' not found" unless route
-
-        _call
+        _call(route)
       ensure
-        @route_path = @route = @params = nil
+        @route_path = @params = nil
       end
 
       def route_paths
@@ -44,7 +43,7 @@ module SimpleController
       end
 
       protected
-      def _call
+      def _call(route)
         route.call params, controller_path_block
       end
 

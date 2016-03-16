@@ -7,10 +7,11 @@ module SimpleController
         @controller_path, @action_name = controller_path, action_name
       end
 
-      def call(*args)
-        controller_path_block = args.last
+      def call(params, context, controller_path_block)
         controller_class = controller_path_block ? controller_path_block.call(controller_path) : "#{controller_path}_controller".classify.constantize
-        controller_class.call action_name, *args[0..-2]
+
+        params = { 'controller' => controller_path, 'action' => action_name }.merge(params)
+        controller_class.call action_name, params, context
       end
     end
   end

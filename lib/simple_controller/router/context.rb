@@ -17,7 +17,7 @@ module SimpleController
 
       protected
 
-      def _call
+      def _call(route)
         route.call params, context, controller_path_block
       end
 
