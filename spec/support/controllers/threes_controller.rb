@@ -18,4 +18,8 @@ class ThreesController < SimpleController::Base
   def power
     3**params[:number]
   end
+
+  def log
+    Math.log(3, params[:number]) if context.format == :integer && context.variant == :math
+  end
 end

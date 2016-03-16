@@ -15,7 +15,7 @@ describe SimpleController::Router do
     shared_examples "route variations" do |controller_class|
       context "only route" do
         let(:action_name) { "multiply" }
-        it ("calls the correct controller function") do
+        it "calls the correct controller function" do
           expect_any_instance_of(controller_class).to receive(action_name).and_call_original
           expect(subject).to eql 18
         end
@@ -23,7 +23,7 @@ describe SimpleController::Router do
 
       context "route with to" do
         let(:action_name) { "dividing" }
-        it ("calls the correct controller function") do
+        it "calls the correct controller function" do
           expect_any_instance_of(controller_class).to receive(:divide).and_call_original
           expect(subject).to eql 0.5
         end
@@ -31,14 +31,14 @@ describe SimpleController::Router do
 
       context "within controller scope" do
         let(:action_name) { "add" }
-        it ("calls the correct controller function") do
+        it "calls the correct controller function" do
           expect_any_instance_of(controller_class).to receive(action_name).and_call_original
           expect(subject).to eql 9
         end
 
         context "route with to" do
           let(:action_name) { "subtracting" }
-          it ("calls the correct controller function") do
+          it "calls the correct controller function" do
             expect_any_instance_of(controller_class).to receive(:subtract).and_call_original
             expect(subject).to eql -3
           end
@@ -48,7 +48,7 @@ describe SimpleController::Router do
       context "defined by controller" do
         let(:action_name) { "power" }
 
-        it ("calls the correct controller function") do
+        it "calls the correct controller function" do
           expect_any_instance_of(controller_class).to receive(action_name).and_call_original
           expect(subject).to eql 729
         end
@@ -69,6 +69,16 @@ describe SimpleController::Router do
       end
 
       include_examples "route variations", ThreesSuffixController
+    end
+
+    context "sets the context" do
+      let(:action_name) { "log.integer.math" }
+      let(:params) { { number: 9 } }
+
+      it "it sets the correct context" do
+        expect(ThreesController).to receive(:call).with('log', params, { format: :integer, variant: :math }).and_call_original
+        expect(subject).to eql 0.5
+      end
     end
   end
 
