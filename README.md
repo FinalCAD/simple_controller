@@ -42,7 +42,7 @@ It works like a Rails Controller, but has only has the following features:
 - `action_name`
 
 ## Router
-A router is provided to decouple controller classes from identifiers.
+An **optional** router is provided to decouple controller classes from identifiers.
 
 ```ruby
 class Router < SimpleController::Router
@@ -73,7 +73,7 @@ Router.instance.call("threes/multiply", number: 6) # same as above
 
 To custom namespace the controller:
 ```ruby
-Router.instance.parse_controller_name {|controller_name| "#{controller_name}_suffix_controller".classify.constantize }
+Router.instance.parse_controller_path {|controller_path| "#{controller_path}_controller".classify.constantize } # this is the default
 
-Router.call("threes/multiply", number: 6) # calls ThreesSuffixController.call(:multiply, number: 6)
+Router.call("threes/multiply", number: 6) # calls ThreesController.call(:multiply, number: 6)
 ```

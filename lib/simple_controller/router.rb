@@ -2,7 +2,7 @@ require 'simple_controller/router/mapper'
 
 module SimpleController
   class Router
-    attr_reader :route_mapping, :route, :route_path, :controller_name_block
+    attr_reader :route_mapping, :route, :route_path, :controller_path_block
 
     include ActiveSupport::Callbacks
     define_callbacks :call
@@ -18,7 +18,7 @@ module SimpleController
       raise "#{self.class} route for '#{@route_path}' not found" unless route
 
       run_callbacks(:call) do
-        @route.call params, controller_name_block
+        @route.call params, controller_path_block
       end
     ensure
       @route_path = nil
@@ -38,8 +38,8 @@ module SimpleController
       @route_mapping[route_path] = route
     end
 
-    def parse_controller_name(&block)
-      @controller_name_block = block
+    def parse_controller_path(&block)
+      @controller_path_block = block
     end
 
     class << self

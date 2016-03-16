@@ -79,10 +79,10 @@ describe SimpleController::Router do
       include_examples "route variations", Namespace::ThreesController
     end
 
-    context "with #parse_controller_name" do
+    context "with #parse_controller_path" do
       let(:instance) do
         instance = ThreesRouter.instance.dup
-        instance.parse_controller_name {|controller_name| "#{controller_name}_suffix_controller".classify.constantize }
+        instance.parse_controller_path {|controller_path| "#{controller_path}_suffix_controller".classify.constantize }
         instance
       end
       include_examples "route variations", ThreesSuffixController
