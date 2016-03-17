@@ -29,30 +29,67 @@ describe SimpleController::Base do
       end
     end
 
-    describe "#action_name" do
-      subject { instance.action_name }
-      before { instance.call(:triple, number: 3) }
+    context "after a #call is called" do
+      before { instance.call(:triple, params, context) }
+      let(:params) { {} }
+      let(:context) { {} }
 
-      it "works" do
-        expect(subject).to eql "triple"
+      describe "#action_name" do
+        subject { instance.action_name }
+
+        it "shows the action name" do
+          expect(subject).to eql "triple"
+        end
       end
-    end
 
-    describe "#params" do
-      subject { instance.params }
-      before { instance.call(:triple, number: 3) }
+      describe "#controller_path" do
+        subject { instance.controller_path }
 
-      it "works" do
-        expect(subject).to eql ActiveSupport::HashWithIndifferentAccess.new(number: 3)
+        it "gives nil" do
+          expect(subject).to eql nil
+        end
+
+        context "with controller given in params" do
+          let(:params) { { controller: "api/numbers" } }
+
+          it "shows the controller name" do
+            expect(subject).to eql "api/numbers"
+          end
+        end
       end
-    end
 
-    describe "#context" do
-      subject { instance.context }
-      before { instance.call(:triple, { number: 3 }, some_context: true) }
+      describe "#controller_name" do
+        subject { instance.controller_name }
 
-      it "works" do
-        expect(subject).to eql OpenStruct.new(some_context: true)
+        it "gives nil" do
+          expect(subject).to eql nil
+        end
+
+        context "with controller given in params" do
+          let(:params) { { controller: "api/numbers" } }
+
+          it "shows the controller name" do
+            expect(subject).to eql "numbers"
+          end
+        end
+      end
+
+      describe "#params" do
+        let(:params) { { number: 3, controller: "api/numbers" } }
+        subject { instance.params }
+
+        it "works" do
+          expect(subject).to eql ActiveSupport::HashWithIndifferentAccess.new(params)
+        end
+      end
+
+      describe "#context" do
+        let(:context) { { some_context: true } }
+        subject { instance.context }
+
+        it "works" do
+          expect(subject).to eql OpenStruct.new(context)
+        end
       end
     end
   end
