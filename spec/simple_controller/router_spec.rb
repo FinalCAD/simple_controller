@@ -95,17 +95,17 @@ describe SimpleController::Router do
       let(:action_name) { 'log' }
       let(:params) { { number: 9 } }
 
-      it "sets format and context to nil" do
+      it "sets processors to nil" do
         expect(subject).to eql nil
-        expect(controller.context).to eql OpenStruct.new(format: nil, variant: nil )
+        expect(controller.context).to eql OpenStruct.new(processors: [])
       end
 
       context "with format and variant" do
-        let(:route_action_name) { "log.integer.math" }
+        let(:route_action_name) { "log.string.double" }
 
         it "it sets the correct context" do
           expect(subject).to eql 0.5
-          expect(controller.context).to eql OpenStruct.new(format: :integer, variant: :math)
+          expect(controller.context).to eql OpenStruct.new(processors: %i[double string])
         end
       end
     end

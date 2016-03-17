@@ -22,25 +22,16 @@ module SimpleController
       end
 
       def parse_route_path(route_path)
-        route_path = route_path.dup
-        variant = extract_extension!(route_path)
-        format = extract_extension!(route_path)
+        processors = []
 
-        if format.empty?
-          format = variant
-          variant = ''
+        until (extension = File.extname(route_path)).empty?
+          route_path = route_path.chomp(extension)
+          processors << extension[1..-1].to_sym
         end
-        @context = { format: format, variant: variant }
-        context.each { |k, v| context[k] = v.empty? ? nil : context[k].to_sym }
+
+        @context = { processors: processors }
 
         route_path
-      end
-
-      def extract_extension!(route_path)
-        extension = File.extname(route_path)
-        route_path.chomp!(extension)
-        extension[0] = ''
-        extension
       end
     end
   end

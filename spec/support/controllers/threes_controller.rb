@@ -20,6 +20,6 @@ class ThreesController < SimpleController::Base
   end
 
   def log
-    Math.log(3, params[:number]) if context.format == :integer && context.variant == :math
+    Math.log(3, params[:number]) if context.processors == %i[double string]
   end
 end
