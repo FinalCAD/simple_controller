@@ -8,8 +8,19 @@ describe SimpleController::Base do
       let(:params) { { number: 3 } }
       subject { instance.call(:triple, params) }
 
-      it "works" do
+      it "calls the correct function and post_processes it" do
+        expect(instance).to receive(:post_process).with(9, []).and_call_original
         expect(subject).to eql 9
+      end
+
+      context "with processors" do
+        let(:processors) { %i[a b c] }
+        subject { instance.call(:triple, params, { processors: processors }) }
+
+        it "passes the processors to #post_process" do
+          expect(instance).to receive(:post_process).with(9, processors).and_call_original
+          subject
+        end
       end
 
       describe "callbacks" do

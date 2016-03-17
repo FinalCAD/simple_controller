@@ -12,6 +12,16 @@ module SimpleController
 
         super(action_name, params)
       end
+
+      def call_action(*args)
+        post_process super, context.processors || []
+      end
+
+      protected
+
+      def post_process(output, processors)
+        output
+      end
     end
   end
 end

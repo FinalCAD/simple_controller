@@ -5,7 +5,7 @@ require 'simple_controller/base/callbacks'
 module SimpleController
   class Base
     include Core
-    include Context
     include Callbacks # included last to wrap method
+    include Context
   end
 end
