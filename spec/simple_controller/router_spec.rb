@@ -67,6 +67,14 @@ describe SimpleController::Router do
 
     include_examples "route variations"
 
+    context "with symbol route_path" do
+      subject { instance.call route_path.to_sym, params }
+
+      it "calls the correct controller function" do
+        expect(subject).to eql 9
+      end
+    end
+
     context "with namespace appended" do
       let(:namespace) { "namespace" }
       let(:controller_class) { Namespace::ThreesController }

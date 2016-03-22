@@ -8,7 +8,7 @@ module SimpleController
       end
 
       def call(route_path, params={})
-        route_path = parse_route_path(route_path)
+        route_path = parse_route_path(route_path.to_s)
 
         super(route_path, params)
       ensure
