@@ -23,3 +23,6 @@ class ThreesController < SimpleController::Base
     Math.log(3, params[:number]) if context.processors == %i[double string]
   end
 end
+
+module Namespace; class ThreesController < ThreesController; end end
+class ThreesSuffixController < ThreesController; end
