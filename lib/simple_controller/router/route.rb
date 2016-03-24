@@ -10,7 +10,7 @@ module SimpleController
       def call(params, context, controller_path_block)
         controller_class = controller_path_block ? controller_path_block.call(controller_path) : "#{controller_path}_controller".classify.constantize
 
-        params = { 'controller' => controller_path, 'action' => action_name }.merge(params)
+        params = { 'controller' => controller_path, 'action' => action_name }.reverse_merge(params)
         controller_class.call action_name, params, context
       end
     end

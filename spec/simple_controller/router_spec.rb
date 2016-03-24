@@ -92,10 +92,12 @@ describe SimpleController::Router do
     end
 
     describe "setting params" do
+      let(:params) { { number: 6, controller: 'blah', action: 'testing' } }
+
       it "sets the controller and action as first key-values" do
         expect(subject).to eql 9
         expect(controller.params).to eql params.merge(controller: controller_path, action: action_name).stringify_keys
-        expect(controller.params.keys).to eql %w[controller action number]
+        expect(controller.params.keys).to eql %w[number controller action]
       end
     end
 
