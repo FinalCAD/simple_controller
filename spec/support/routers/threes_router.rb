@@ -10,7 +10,7 @@ ThreesRouter.instance.draw do
       match :add
       match subtracting: "subtract"
     end
-    controller :threes, actions: %i[power]
+    controller :threes, actions: %i[power log]
   end
 
   instance_eval(&draw_block)
