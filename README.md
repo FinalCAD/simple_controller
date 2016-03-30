@@ -106,16 +106,18 @@ end
 And the [Router](#router) is set up, `FoldersController#two_readmes` generates a directory of `FilesController#readme`s. Processors add the ability to do these calls:
 
 ```ruby
+# calls the `s3_key` processor
 Router.call('files/readme.s3_key')
 # equivalent to:
 FilesController.call(:readme, {}, { processors: [:s3_key] }) 
 
+# calls the `zip` processor then the `s3_key` processor
 Router.call('folders/two_readmes.s3_key.zip')
 # equivalent to (NOTE the reverse order to the processor suffixes):
 FoldersController.call(:two_readmes, {}, { processors: [:zip, :s3_key] })
 ```
 
-The processors can be implemented in a common Parent controller, in this case:
+The processors (`zip` and `s3_key`) can be defined and implemented in a common Parent controller, in this case:
 ```ruby
 class FileSystemController < SimpleController::Base
   # output => "path_to_file_or_directory"
