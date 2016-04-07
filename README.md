@@ -117,7 +117,15 @@ Router.call('folders/two_readmes.s3_key.zip')
 FoldersController.call(:two_readmes, {}, { processors: [:zip, :s3_key] })
 ```
 
-The processors (`zip` and `s3_key`) can be defined and implemented in a common Parent controller, in this case:
+Internally, the `#post_process` method takes the output of your `action` and does the following:
+```ruby
+# pseudo-code for `SimpleController::Base#call`
+def call
+   post_process(__call_the_controller_action__, processors)
+end
+```
+
+So the processors (`zip` and `s3_key`) can be defined and implemented in a common Parent controller `#post_process` method, in this case:
 ```ruby
 class FileSystemController < SimpleController::Base
   # output => "path_to_file_or_directory"
