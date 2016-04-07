@@ -85,7 +85,7 @@ Routers add the following Rails features to the Controllers:
 
 ## Post-Process
 Inspired by [`rails/sprockets` Processors](https://github.com/rails/sprockets#using-processors), Routes can have processor suffixes to ensure that controller endpoints
-are [composable](https://en.wikipedia.org/wiki/Function_composition_(computer_science)). For example, given:
+are [composable](https://en.wikipedia.org/wiki/Function_composition_(computer_science)), but allows a final processing step. For example, given:
 
 ```ruby
 class FoldersController < FileSystemController
@@ -106,12 +106,13 @@ end
 And the [Router](#router) is set up, `FoldersController#two_readmes` generates a directory of `FilesController#readme`s. Processors add the ability to do these calls:
 
 ```ruby
-# calls the `s3_key` processor
+# calls the `s3_key` processor (upload to s3 and return the s3_key)
 Router.call('files/readme.s3_key')
 # equivalent to:
 FilesController.call(:readme, {}, { processors: [:s3_key] }) 
 
 # calls the `zip` processor then the `s3_key` processor
+# in other words, zip the directory then upload to s3 and return the s3_key
 Router.call('folders/two_readmes.s3_key.zip')
 # equivalent to (NOTE the reverse order to the processor suffixes):
 FoldersController.call(:two_readmes, {}, { processors: [:zip, :s3_key] })
